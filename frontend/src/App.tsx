@@ -7,11 +7,11 @@ interface ITodo {
   description: string;
 }
 
-interface ITodoResponse {
-  data: {
-    todos: ITodo[];
-  };
-}
+// interface ITodoResponse {
+//   data: {
+//     todos: ITodo[];
+//   };
+// }
 
 function App() {
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     async function fetchTodos(): Promise<void> {
       try {
-        const todosReq = await fetch("/api/todos");
+        const todosReq = await fetch("http://localhost:9000/api/todos");
 
         let todosRes;
         if (todosReq.ok && todosReq.status === 200) {
@@ -29,7 +29,9 @@ function App() {
           throw new Error("server error");
         }
 
-        setTodos(todosRes);
+        if (todosRes) {
+          setTodos(todosRes?.data?.todos);
+        }
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -41,22 +43,16 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
       <main>
         This is just a test app to connect a front and back end with Docker.
         Will eventually include a CI/CD pipeline
       </main>
       <div>
         <h2>Todo Items</h2>
-        {error && <h3>{error}</h3>}
-        <ul>
-          {todos?.length &&
-            todos.map((todo) => {
+        {error && <h3 style={{ color: "red" }}>{error}</h3>}
+        {todos?.length > 0 && (
+          <ul>
+            {todos.map((todo) => {
               return (
                 <li key={todo?.id}>
                   {todo?.description
@@ -65,7 +61,8 @@ function App() {
                 </li>
               );
             })}
-        </ul>
+          </ul>
+        )}
       </div>
     </div>
   );

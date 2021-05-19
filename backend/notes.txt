@@ -1,0 +1,6 @@
+Plan is:
+- get frontend and backend working in development with docker compose
+- once working in dev, create a trial account in azure and create a vm to run docker and nginx
+- have nginx serve the static frontend files, and proxy requests from front end to back end
+- after nginx is set up and frontend can hit back end endpoints, set up a jenkins server? Use docker here too?
+- after this, need to look into provisioning infra with terraform, and configure provisioned infra with either ansible or puppet?

@@ -41,6 +41,12 @@ function App() {
     fetchTodos();
   }, []);
 
+  useEffect(() => {
+    if (todos?.length > 0) {
+      setError("");
+    }
+  }, [todos]);
+
   return (
     <div className="App">
       <main>
